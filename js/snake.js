@@ -5,27 +5,27 @@ window.onload = function(){
     document.addEventListener("keydown", keyPush);
     setInterval(game, 1000/15);
 };
-px = py = 10;
-gs = tc = 20;
-ax = ay = 15;
-xv = yv= 0;
+playerX = playerY = 10;
+greedSize = tailCount = 20;
+appleX = appleY = 15;
+xVelocity = yVelocity= 0;
 trail = [];
 tail = 5;
 
 function game(){
-    px+=xv;
-    py+=yv;
-    if(px<0){
-        px = tc-1;
+  playerX+=xVelocity;
+  playerY+=yVelocity;
+    if(playerX<0){
+      playerX = tailCount-1;
     }
-    if(px>tc-1){
-        px = 0;
+    if(playerX>tailCount-1){
+      playerX = 0;
     }
-    if(py<0){
-        py = tc-1;
+    if(playerY<0){
+      playerY = tailCount-1;
     }
-    if(py>tc-1){
-        py=0;
+    if(playerY>tailCount-1){
+      playerY=0;
     }
 
     ctx.fillStyle = "black";
@@ -33,39 +33,38 @@ function game(){
 
     ctx.fillStyle="lime";
     for(var i=0; i < trail.length;++i){
-        ctx.fillRect(trail[i].x * gs,trail[i].y*gs,gs-2,gs-2);
-        if(trail[i].x==px && trail[i].y==py){
+        ctx.fillRect(trail[i].x * greedSize,trail[i].y*greedSize,greedSize-2,greedSize-2);
+        if(trail[i].x==playerX && trail[i].y==playerY){
             tail = 5;
         }
     }
-
-    trail.push({x:px, y:px});
+    trail.push({x:playerX, y:playerY});
     while(trail.length>tail){
         trail.shift();
     }
 
-    if(ax==px && ay==py){
+    if(appleX==playerX && appleY==playerY){
         tail++;
-        ax=Math.floor(Math.random()*tc);
-        ay=Math.floor(Math.random()*tc);
+      appleX=Math.floor(Math.random()*tailCount);
+      appleY=Math.floor(Math.random()*tailCount);
     }
     ctx.fillStyle="red";
-    ctx.fillRect(ax*gs,ay*gs,gs-2,gs-2);
+    ctx.fillRect(appleX*greedSize,appleY*greedSize,greedSize-2,greedSize-2);
 }
 
 function keyPush(evt){
   switch(evt.keyCode){
-      case 37:
-          xv=-1; yv=0;
-          break;
-      case 38:
-          xv=0; yv=-1;
-          break;
-      case 39:
-          xv=1; yv=0;
-          break;
-      case 40:
-          xv=0; yv=1;
-          break;
+    case 37:
+      xVelocity=-1;yVelocity=0;
+      break;
+    case 38:
+      xVelocity=0;yVelocity=-1;
+      break;
+    case 39:
+      xVelocity=1;yVelocity=0;
+      break;
+    case 40:
+      xVelocity=0;yVelocity=1;
+      break;
   }
 }
